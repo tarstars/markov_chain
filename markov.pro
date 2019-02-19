@@ -9,7 +9,8 @@ SOURCES += \
     markov_automaton.cpp
 
 DISTFILES += \
-    ars.txt
+    ars.txt \
+    bash.txt
 
 HEADERS += \
     markov_automaton.h

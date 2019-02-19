@@ -12,7 +12,8 @@ MarkovAutomaton::MarkovAutomaton(size_t contextSize): contextSize(contextSize)
 
 void MarkovAutomaton::UpdateFromString(const std::string& text) {
     typedef boost::tokenizer<boost::char_separator<char>> tokenizer;
-    tokenizer tok{text};
+    boost::char_separator<char> sep{" .,?!<>"};
+    tokenizer tok{text, sep};
     TokenIdProcessor idProcessor(this);
     for (tokenizer::iterator itToken = tok.begin(); itToken != tok.end(); ++itToken) {
         size_t tokenId;
@@ -60,8 +61,9 @@ void MarkovAutomaton::SaveMatrix(const std::string& flnm) {
     dest << matrix.size() << std::endl;
     for (const auto& word2hist: matrix) {
         dest << word2hist.first << std::endl;
+        dest << "\t" << word2hist.second.size() << std::endl;
         for (const auto& id_freq: word2hist.second) {
-            dest << "\t" << id_freq.first << " " << id_freq.second << std::endl;
+            dest << "\t\t" << id_freq.first << " " << id_freq.second << std::endl;
         }
     }
 }
