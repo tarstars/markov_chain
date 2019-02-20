@@ -6,11 +6,13 @@ LIBS += -lboost_system -lboost_filesystem
 
 SOURCES += \
         main.cpp \
-    markov_automaton.cpp
+    markov_automaton.cpp \
+    localized_charfilter.cpp
 
 DISTFILES += \
     ars.txt \
     bash.txt
 
 HEADERS += \
-    markov_automaton.h
+    markov_automaton.h \
+    localized_charfilter.h

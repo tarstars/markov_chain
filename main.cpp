@@ -1,27 +1,31 @@
 #include "markov_automaton.h"
+#include "localized_charfilter.h"
 
 #include <boost/filesystem.hpp>
 
-#include <locale>
+#include <array>
+#include <clocale>
+#include <codecvt>
+// #include <locale>
 #include <cstdio>
 #include <iostream>
 #include <memory>
 #include <stdexcept>
 #include <sstream>
 #include <string>
-#include <array>
+
 
 std::string exec(const char* cmd) {
     std::array<char, 128> buffer;
-    std::stringstream result;
+    std::string result;
     std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), pclose);
     if (!pipe) {
         throw std::runtime_error("popen() failed!");
     }
     while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
-        result << buffer.data();
+        result += buffer.data();
     }
-    return result.str();
+    return result;
 }
 
 void checkParameters(int argc, const char **argv) {
@@ -31,20 +35,6 @@ void checkParameters(int argc, const char **argv) {
         throw std::runtime_error("");
     }
 }
-
-class CharToRemove {
-public:
-    bool operator()(char c) const {
-        return !std::isalpha(c, loc) && c != ' ' && c != '\t';
-    }
-    static CharToRemove& getInst() {
-        static CharToRemove oneObject;
-        return oneObject;
-    }
-private:
-    CharToRemove(): loc("ru_RU.utf8"){}
-    std::locale loc;
-};
 
 void doMain(int argc, const char **argv) {
     checkParameters(argc, argv);
@@ -59,13 +49,23 @@ void doMain(int argc, const char **argv) {
     if (!source) {
         throw std::runtime_error("can't open file <" + uriFlnm + ">");
     }
+    // std::locale loc("ru_RU.utf8");
+    // std::cout.imbue(loc);
+    // std::setlocale(std::LC_ALL, "ru_RU.utf8");
     MarkovAutomaton mark(static_cast<size_t>(n));
     std::string uri;
     while (std::getline(source, uri)) {
-        auto inStr = exec((curlCmd + uri).c_str());
+        std::string inStr = exec((curlCmd + uri).c_str());
+        std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+        std::wstring winStr = converter.from_bytes(inStr);
+
+        // std::wcout << winStr << std::endl;
+        // std::wcout << L"абв фффффф аааааааааааааааа" << std::endl;
+        std::wcout << winStr << std::endl;
+        // throw std::runtime_error("stop here");
         // auto inStr = std::string("abc абв ..op");
-        inStr.erase(std::remove_if(inStr.begin(), inStr.end(), CharToRemove::getInst()), inStr.end());
-        mark.UpdateFromString(inStr);
+        // inStr.erase(std::remove_if(inStr.begin(), inStr.end(), CharToRemove::getInst()), inStr.end());
+        // mark.UpdateFromString(inStr);
     }
     mark.SaveIndex(argv[3]);
     mark.SaveMatrix(argv[4]);
