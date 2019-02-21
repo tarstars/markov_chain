@@ -56,33 +56,39 @@ void doMain(int argc, const char **argv) {
     std::string uri;
     while (std::getline(source, uri)) {
         std::string inStr = exec((curlCmd + uri).c_str());
-        std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+        std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
         std::wstring winStr = converter.from_bytes(inStr);
-
-        // std::wcout << winStr << std::endl;
-        // std::wcout << L"абв фффффф аааааааааааааааа" << std::endl;
-        std::wcout << winStr << std::endl;
-        // throw std::runtime_error("stop here");
-        // auto inStr = std::string("abc абв ..op");
-        // inStr.erase(std::remove_if(inStr.begin(), inStr.end(), CharToRemove::getInst()), inStr.end());
-        // mark.UpdateFromString(inStr);
+        winStr.erase(std::remove_if(winStr.begin(), winStr.end(), CharToRemove::getInst()), winStr.end());
+        mark.UpdateFromString(winStr);
     }
     mark.SaveIndex(argv[3]);
     mark.SaveMatrix(argv[4]);
 }
 
 void test_rus() {
-    std::wstring a(L"фбв");
-    std::locale l("ru_RU.utf8");
-    wchar_t b = a[0];
-    std::cout << a[0] << " " << std::isalpha(a[0], l) << " "
-              << std::isalpha(b, l) << std::endl ;
+    std::wstring a(L"Как ныне сбирается вещий 111");
+
+    std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+    std::string b = converter.to_bytes(a);
+
+    // std::cout << b << std::endl;
+    std::locale ruLoc("ru_RU.utf8");
+
+    std::wcout << a << std::endl;
+
+    for (size_t ind = 0; ind < a.size(); ++ind) {
+        std::wcout << ind << " " << int(a[ind])
+                   << " iswalpha = " << std::isalpha(a[ind], ruLoc)
+                   << std::endl;
+    }
+    // wchar_t b = a[0];
+    // std::cout << a[0] << " " << std::isalpha(a[0], l) << " "
+    //           << std::isalpha(b, l) << std::endl ;
 }
 
 int main(int argc, const char **argv)
 {
-    // test_rus();
-    // return 0;
+    //  test_rus();     return 0;
     try {
         doMain(argc, argv);
     } catch (const std::runtime_error& err) {

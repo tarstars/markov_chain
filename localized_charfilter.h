@@ -5,10 +5,10 @@
 
 class CharToRemove {
 public:
-    bool operator()(char c) const;
+    bool operator()(wchar_t c) const;
     static CharToRemove& getInst();
 private:
-    CharToRemove(): loc("ru_RU.utf8"){}
+    CharToRemove();
     std::locale loc;
 };
 

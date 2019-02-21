@@ -11,7 +11,11 @@ SOURCES += \
 
 DISTFILES += \
     ars.txt \
-    bash.txt
+    bash.txt \
+    hello_test \
+    dict_00 \
+    automaton_00 \
+    hello_test
 
 HEADERS += \
     markov_automaton.h \

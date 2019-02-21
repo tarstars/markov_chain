@@ -10,7 +10,7 @@ class MarkovAutomaton
 {
 public:
     MarkovAutomaton(size_t constextSize);
-    void UpdateFromString(const std::string& text);
+    void UpdateFromString(const std::wstring& text);
     void SaveIndex(const std::string& flnm);
     void SaveMatrix(const std::string& flnm);
 private:
@@ -27,7 +27,7 @@ private:
     };
 
     size_t contextSize;
-    std::unordered_map<std::string, std::size_t> word2id;
+    std::unordered_map<std::wstring, std::size_t> word2id;
     std::unordered_map<std::size_t, std::unordered_map<std::size_t, std::size_t>> matrix;
 };
 

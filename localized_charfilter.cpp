@@ -1,7 +1,11 @@
 #include "localized_charfilter.h"
 
-bool CharToRemove::operator()(char c) const {
-    return !std::isalpha(c, loc) && c != ' ' && c != '\t';
+CharToRemove::CharToRemove(): loc("ru_RU.utf8") {
+
+}
+
+bool CharToRemove::operator()(wchar_t c) const {
+    return !std::isalpha(c, loc) && c != L' ' && c != L'\t' && c!= '\n';
 }
 
 CharToRemove& CharToRemove::getInst() {
