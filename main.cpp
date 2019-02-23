@@ -6,7 +6,6 @@
 #include <array>
 #include <clocale>
 #include <codecvt>
-// #include <locale>
 #include <cstdio>
 #include <iostream>
 #include <memory>
@@ -41,6 +40,7 @@ void doMain(int argc, const char **argv) {
     std::string uriFlnm(argv[1]);
     std::stringstream streamN(argv[2]);
     std::ifstream source(uriFlnm);
+    std::ofstream debug("debug.txt");
     std::string curlCmd("curl ");
     int n;
     if (!(streamN >> n) || n < 1) {
@@ -56,6 +56,7 @@ void doMain(int argc, const char **argv) {
     std::string uri;
     while (std::getline(source, uri)) {
         std::string inStr = exec((curlCmd + uri).c_str());
+        debug << inStr;
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
         std::wstring winStr = converter.from_bytes(inStr);
         winStr.erase(std::remove_if(winStr.begin(), winStr.end(), CharToRemove::getInst()), winStr.end());

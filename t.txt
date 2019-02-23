@@ -1,1 +1,1 @@
-http://vojnaimir.ru/files/book2.txt
+localhost:8000/hello_test_01.txt

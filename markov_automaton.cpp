@@ -15,15 +15,16 @@ MarkovAutomaton::MarkovAutomaton(size_t contextSize): contextSize(contextSize)
 void MarkovAutomaton::UpdateFromString(const std::wstring& text) {
     typedef boost::tokenizer<boost::char_separator<wchar_t>,
             std::wstring::const_iterator, std::wstring> tokenizer;
-    boost::char_separator<wchar_t> sep{L" \t.,?!<>\\/\n"};
+    boost::char_separator<wchar_t> sep{L" \t.,?!<>\\/\n=:;"};
     tokenizer tok{text, sep};
     TokenIdProcessor idProcessor(this);
     for (tokenizer::iterator itToken = tok.begin(); itToken != tok.end(); ++itToken) {
+        std::wstring currentToken = CharToRemove::getInst().tolower_locale(*itToken);
         size_t tokenId;
-        const auto itId = word2id.find(*itToken);
+        const auto itId = word2id.find(currentToken);
         if (itId == word2id.end()) {
             tokenId = word2id.size() + 1;
-            word2id[*itToken] = tokenId;
+            word2id[currentToken] = tokenId;
         } else {
             tokenId = itId->second;
         }
@@ -39,15 +40,16 @@ MarkovAutomaton::TokenIdProcessor::TokenIdProcessor(MarkovAutomaton *automaton):
 
 void MarkovAutomaton::TokenIdProcessor::processTokenId(size_t tokenId) {
     inProgress.push(tokenId);
-    currentPolyHash = (currentPolyHash * MULT + tokenId) % MODULO;
+    size_t nextPolyHash = (currentPolyHash * MULT + tokenId) % MODULO;
     if (inProgress.size() <= automaton->contextSize) {
         lastDigit = (lastDigit * MULT) % MODULO;
     } else {
         size_t idToRemove = inProgress.front();
         inProgress.pop();
-        currentPolyHash = (currentPolyHash + MODULO - (idToRemove * lastDigit) % MODULO ) % MODULO;
+        nextPolyHash = (nextPolyHash + MODULO - (idToRemove * lastDigit) % MODULO ) % MODULO;
         ++(automaton->matrix[currentPolyHash][tokenId]);
     }
+    currentPolyHash = nextPolyHash;
 }
 
 void MarkovAutomaton::SaveIndex(const std::string& flnm) {
