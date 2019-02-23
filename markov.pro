@@ -8,7 +8,8 @@ SOURCES += \
         main.cpp \
     markov_automaton.cpp \
     util.cpp \
-    locale_services.cpp
+    locale_services.cpp \
+    poly_hash.cpp
 
 DISTFILES += \
     ars.txt \
@@ -29,4 +30,5 @@ DISTFILES += \
 HEADERS += \
     markov_automaton.h \
     util.h \
-    locale_services.h
+    locale_services.h \
+    poly_hash.h

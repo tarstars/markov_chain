@@ -7,7 +7,7 @@
 #include <iostream>
 #include <fstream>
 
-MarkovAutomaton::MarkovAutomaton(size_t contextSize): contextSize(contextSize)
+MarkovAutomaton::MarkovAutomaton(size_t contextSize): polyHash(contextSize)
 {
 
 }
@@ -17,7 +17,6 @@ void MarkovAutomaton::UpdateFromString(const std::wstring& text) {
             std::wstring::const_iterator, std::wstring> tokenizer;
     boost::char_separator<wchar_t> sep{L" \t.,?!<>\\/\n=:;"};
     tokenizer tok{text, sep};
-    TokenIdProcessor idProcessor(this);
     for (tokenizer::iterator itToken = tok.begin(); itToken != tok.end(); ++itToken) {
         std::wstring currentToken = LocaleServices::getInst().tolower_locale(*itToken);
         size_t tokenId;
@@ -28,28 +27,8 @@ void MarkovAutomaton::UpdateFromString(const std::wstring& text) {
         } else {
             tokenId = itId->second;
         }
-        idProcessor.processTokenId(tokenId);
+        processTokenId(tokenId);
     }
-}
-
-MarkovAutomaton::TokenIdProcessor::TokenIdProcessor(MarkovAutomaton *automaton): automaton(automaton),
-    currentPolyHash(0), lastDigit(1)
-{
-
-}
-
-void MarkovAutomaton::TokenIdProcessor::processTokenId(size_t tokenId) {
-    inProgress.push(tokenId);
-    size_t nextPolyHash = (currentPolyHash * MULT + tokenId) % MODULO;
-    if (inProgress.size() <= automaton->contextSize) {
-        lastDigit = (lastDigit * MULT) % MODULO;
-    } else {
-        size_t idToRemove = inProgress.front();
-        inProgress.pop();
-        nextPolyHash = (nextPolyHash + MODULO - (idToRemove * lastDigit) % MODULO ) % MODULO;
-        ++(automaton->matrix[currentPolyHash][tokenId]);
-    }
-    currentPolyHash = nextPolyHash;
 }
 
 void MarkovAutomaton::SaveIndex(const std::string& flnm) {
@@ -73,4 +52,11 @@ void MarkovAutomaton::SaveMatrix(const std::string& flnm) {
             dest << "\t\t" << id_freq.first << " " << id_freq.second << std::endl;
         }
     }
+}
+
+void MarkovAutomaton::processTokenId(size_t id) {
+    if (polyHash.ripe()) {
+        ++matrix[polyHash.getContextId()][id];
+    }
+    polyHash.push((id));
 }
