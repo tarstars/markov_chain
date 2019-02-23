@@ -1,5 +1,5 @@
 #include "markov_automaton.h"
-#include "localized_charfilter.h"
+#include "locale_services.h"
 
 #include <boost/tokenizer.hpp>
 
@@ -19,7 +19,7 @@ void MarkovAutomaton::UpdateFromString(const std::wstring& text) {
     tokenizer tok{text, sep};
     TokenIdProcessor idProcessor(this);
     for (tokenizer::iterator itToken = tok.begin(); itToken != tok.end(); ++itToken) {
-        std::wstring currentToken = CharToRemove::getInst().tolower_locale(*itToken);
+        std::wstring currentToken = LocaleServices::getInst().tolower_locale(*itToken);
         size_t tokenId;
         const auto itId = word2id.find(currentToken);
         if (itId == word2id.end()) {

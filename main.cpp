@@ -1,7 +1,7 @@
 #include "markov_automaton.h"
 #include "util.h"
 
-#include "localized_charfilter.h"
+#include "locale_services.h"
 
 #include <algorithm>
 #include <codecvt>
@@ -31,7 +31,7 @@ void doMain(int argc, const char **argv) {
         std::string inStr = exec((curlCmd + uri).c_str());
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
         std::wstring winStr = converter.from_bytes(inStr);
-        winStr.erase(std::remove_if(winStr.begin(), winStr.end(), CharToRemove::getInst()), winStr.end());
+        winStr.erase(std::remove_if(winStr.begin(), winStr.end(), LocaleServices::getInst()), winStr.end());
         mark.UpdateFromString(winStr);
     }
     mark.SaveIndex(modelIndexFileName);
@@ -45,6 +45,9 @@ int main(int argc, const char **argv)
     } catch (const std::runtime_error& err) {
         std::cerr << err.what() << std::endl;
         return 1;
+    } catch (const std::bad_alloc& err) {
+        std::cerr << "memory allocation error" << std::endl;
+        return 2;
     }
     return 0;
 }

@@ -7,8 +7,8 @@ LIBS += -lboost_system -lboost_filesystem
 SOURCES += \
         main.cpp \
     markov_automaton.cpp \
-    localized_charfilter.cpp \
-    util.cpp
+    util.cpp \
+    locale_services.cpp
 
 DISTFILES += \
     ars.txt \
@@ -28,5 +28,5 @@ DISTFILES += \
 
 HEADERS += \
     markov_automaton.h \
-    localized_charfilter.h \
-    util.h
+    util.h \
+    locale_services.h
