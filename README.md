@@ -9,6 +9,8 @@
 
 ### generator
 * generate random sequences
+#### command line invocation
+*
 
 ### File structure of the project :
 * bin - binary programs files

@@ -1,28 +1,57 @@
 #include "markov_sampler.h"
 
+#include <fstream>
+
 MarkovSampler::MarkovSampler() {
 
 }
 
-MarkovSampler MarkovSampler::fromStream(std::istream& is) {
+MarkovSampler MarkovSampler::loadSampler(const std::string& modelMatrixFileName,
+                                         const std::string& modelIndexFileName) {
     MarkovSampler result;
-    is >> result.contextLength;
-    int n;
-    is >> n;
-    if (!is) {
-        throw std::runtime_error("stream error during reading of Markov sampler");
-    }
-    if (n < 0) {
-        throw std::runtime_error("negative records number during reading of the Markov sampler");
-    }
-    size_t unsignedN = n;
-    for (size_t meter = 0; meter < unsignedN; ++meter) {
-        size_t contextId;
-        if (!(is >> contextId)) {
-            throw std::runtime_error("stream error during reading of contextId in the Markov sampler");
+
+    // read model matrix
+    {
+        std::ifstream matrixStream(modelMatrixFileName);
+        matrixStream >> result.contextLength;
+        int n;
+        matrixStream >> n;
+        if (!matrixStream) {
+            throw std::runtime_error("stream error during reading of Markov sampler");
         }
-        auto discreteDistribution = DiscreteDistribution::createFromStream(is);
-        result.transitions[contextId] = discreteDistribution;
+        if (n < 0) {
+            throw std::runtime_error("negative records number during reading of matrix in the Markov sampler");
+        }
+        size_t unsignedN = n;
+        for (size_t meter = 0; meter < unsignedN; ++meter) {
+            size_t contextId;
+            if (!(matrixStream >> contextId)) {
+                throw std::runtime_error("stream error during reading of contextId in the Markov sampler");
+            }
+            auto discreteDistribution = DiscreteDistribution::createFromStream(matrixStream);
+            result.transitions[contextId] = discreteDistribution;
+        }
+    }
+
+    // read model index
+    {
+        std::ifstream indexStream(modelIndexFileName);
+        int n;
+        if (!(indexStream >> n)) {
+            throw std::runtime_error("stream error during reading of the index in the Markov sampler");
+        }
+        if (n < 0) {
+            throw std::runtime_error("negative records number during reading of the index in the Markov sampler");
+        }
+
+        size_t unsignedN = n;
+        for (size_t meter = 0; meter < unsignedN; ++meter) {
+            std::string token;
+            size_t id;
+            indexStream >> token >> id;
+            result.id2token[id] = token;
+            result.token2id[token] = id;
+        }
     }
     return result;
 }

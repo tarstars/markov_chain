@@ -54,7 +54,7 @@ std::map<std::string, std::string> getGeneratorParameters(int argc, const char**
     checkGeneratorParameters(argc, argv);
     std::map<std::string, std::string> result;
 
-    result["dict_index_prefix"] = argv[1];
+    result["model_file_prefix"] = argv[1];
     result["context_flnm"] = argv[2];
 
     return result;

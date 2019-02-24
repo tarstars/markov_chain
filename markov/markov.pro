@@ -5,7 +5,6 @@ CONFIG -= qt
 LIBS += -lboost_system -lboost_filesystem
 VPATH += ../common_code
 DESTDIR = ../bin
-BUILDDIR = ../tmp
 QMAKE_CXXFLAGS += -Wall
 
 SOURCES += \
@@ -48,4 +47,4 @@ HEADERS += \
     util.h \
     locale_services.h \
     poly_hash.h \
-    ../common_code/generator.h
+    generator.h
