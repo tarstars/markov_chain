@@ -55,3 +55,16 @@ MarkovSampler MarkovSampler::loadSampler(const std::string& modelMatrixFileName,
     }
     return result;
 }
+
+size_t MarkovSampler::getContextLength() const {
+    return contextLength;
+}
+
+size_t MarkovSampler::getIdByToken(const std::string& token) const {
+    auto it = token2id.find(token);
+    if (it == token2id.end()) {
+        throw std::runtime_error(std::string("there is no token <") +
+                                 token + "> in model");
+    }
+    return it->second;
+}

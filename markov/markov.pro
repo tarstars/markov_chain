@@ -40,7 +40,8 @@ DISTFILES += \
     ../data/wp_utf8.txt \
     ../data/ars.txt \
     ../models/hello_test_01_2.idx \
-    ../models/hello_test_01_2.mtx
+    ../models/hello_test_01_2.mtx \
+    ../data/hello_test_01_start_context
 
 HEADERS += \
     markov_automaton.h \

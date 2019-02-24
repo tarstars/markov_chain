@@ -11,6 +11,8 @@ public:
     MarkovSampler();
     static MarkovSampler loadSampler(const std::string& modelMatrixFileName,
                                      const std::string& modelIndexFileName);
+    size_t getContextLength() const;
+    size_t getIdByToken(const std::string&) const;
 private:
     size_t contextLength;
     std::unordered_map<size_t, DiscreteDistribution> transitions;

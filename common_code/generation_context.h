@@ -4,16 +4,18 @@
 #include <iostream>
 #include <vector>
 
+class MarkovSampler;
+
 class GenerationContext
 {
 public:
-    static GenerationContext fromStream(std::istream&);
+    static GenerationContext fromStream(std::istream&, const MarkovSampler& );
 private:
     GenerationContext();
 
     class SequenceData {
     public:
-        static SequenceData fromStream(std::istream &);
+        static SequenceData fromStream(std::istream &, const MarkovSampler& );
     private:
         size_t seqLen;
         size_t contextId;
