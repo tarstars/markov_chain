@@ -1,4 +1,7 @@
 #include "discrete_distribution.h"
+#include "random_singleton.h"
+
+#include <algorithm>
 
 DiscreteDistribution::DiscreteDistribution() {
 
@@ -25,7 +28,7 @@ DiscreteDistribution DiscreteDistribution::createFromStream(std::istream &is) {
         }
         freqSum += freq;
         result.tokenIds.emplace_back(id);
-        result.cumulativeDensity.emplace_back(freq);
+        result.cumulativeDensity.emplace_back(freqSum);
     }
 
     if (freqSum < 1.0) {
@@ -37,4 +40,11 @@ DiscreteDistribution DiscreteDistribution::createFromStream(std::istream &is) {
     }
 
     return result;
+}
+
+size_t DiscreteDistribution::drawRandomId() const {
+    double x = RandomSingleton::rand();
+    return tokenIds[upper_bound(cumulativeDensity.begin(),
+                                cumulativeDensity.end(),
+                                x) - cumulativeDensity.begin()];
 }

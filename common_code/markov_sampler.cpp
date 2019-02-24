@@ -1,3 +1,4 @@
+#include "generation_context.h"
 #include "markov_sampler.h"
 
 #include <fstream>
@@ -67,4 +68,21 @@ size_t MarkovSampler::getIdByToken(const std::string& token) const {
                                  token + "> in model");
     }
     return it->second;
+}
+
+void MarkovSampler::generateFromContext(const GenerationContext &generationContext) {
+    for (size_t ind = 0; ind < generationContext.seqs.size(); ++ind) {
+        generateFromSequenceData(generationContext.seqs[ind]);
+    }
+}
+
+void MarkovSampler::generateFromSequenceData(const GenerationContext::SequenceData& sd) {
+    size_t startCache = sd.contextId;
+    for (size_t ind = 0; ind < sd.seqLen; ++ind) {
+        auto discreteDistribution = transitions.find(startCache);
+        if (discreteDistribution == transitions.end()) {
+            return;
+        }
+        size_t tokenId = discreteDistribution->second.drawRandomId();
+    }
 }

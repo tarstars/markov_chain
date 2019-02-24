@@ -19,10 +19,12 @@ private:
     private:
         size_t seqLen;
         size_t contextId;
+        friend class MarkovSampler;
     };
 
     int contextLength;
     std::vector<SequenceData> seqs;
+    friend class MarkovSampler;
 };
 
 #endif // GENERATION_CONTEXT_H

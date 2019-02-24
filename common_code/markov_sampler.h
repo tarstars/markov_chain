@@ -6,6 +6,9 @@
 #include <istream>
 #include <unordered_map>
 
+class GenerationContext;
+class SequenceData;
+
 class MarkovSampler {
 public:
     MarkovSampler();
@@ -13,6 +16,8 @@ public:
                                      const std::string& modelIndexFileName);
     size_t getContextLength() const;
     size_t getIdByToken(const std::string&) const;
+    void generateFromContext(const GenerationContext& generationContext);
+    void generateFromSequenceData(const GenerationContext::SequenceData& sd);
 private:
     size_t contextLength;
     std::unordered_map<size_t, DiscreteDistribution> transitions;
