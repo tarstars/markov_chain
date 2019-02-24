@@ -6,14 +6,14 @@ LIBS += -lboost_system -lboost_filesystem
 VPATH += ../common_code
 DESTDIR = ../bin
 BUILDDIR = ../tmp
+QMAKE_CXXFLAGS += -Wall
 
 SOURCES += \
         main.cpp \
     markov_automaton.cpp \
     util.cpp \
     locale_services.cpp \
-    poly_hash.cpp \
-    main.cpp
+    poly_hash.cpp
 
 DISTFILES += \
     ars.txt \

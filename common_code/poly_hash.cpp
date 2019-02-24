@@ -29,3 +29,7 @@ bool PolyHash::ripe() const {
 size_t PolyHash::getContextId() const {
     return currentPolyHash;
 }
+
+size_t PolyHash::getContextSize() const {
+    return contextSize;
+}

@@ -10,6 +10,7 @@ public:
     void push(size_t id);
     bool ripe() const;
     size_t getContextId() const;
+    size_t getContextSize() const;
 private:
     size_t contextSize;
     std::queue<size_t> inProgress;

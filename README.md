@@ -4,11 +4,13 @@
 ### markov
 * generates table of token ids
 * generate table of automaton transitions
+#### command line invocation
+* markov <file with urls> <context len> <prefix for dict and index files>
 
 ### generator
 * generate random sequences
 
-### Project file structure:
+### File structure of the project :
 * bin - binary programs files
 * common_code - shared between markov and generator files
 * data:

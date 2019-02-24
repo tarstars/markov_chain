@@ -33,6 +33,9 @@ void MarkovAutomaton::UpdateFromString(const std::wstring& text) {
 
 void MarkovAutomaton::SaveIndex(const std::string& flnm) {
     std::ofstream dest(flnm);
+    if (!dest) {
+        throw std::runtime_error("can't open file to save index");
+    }
     dest << word2id.size() << std::endl;
     std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
     for (const auto& word_id: word2id) {
@@ -43,7 +46,11 @@ void MarkovAutomaton::SaveIndex(const std::string& flnm) {
 
 void MarkovAutomaton::SaveMatrix(const std::string& flnm) {
     std::ofstream dest(flnm);
+    if (!dest) {
+        throw std::runtime_error("can't open file to save matrix");
+    }
 
+    dest << polyHash.getContextSize() << std::endl;
     dest << matrix.size() << std::endl;
     for (const auto& word2hist: matrix) {
         dest << word2hist.first << std::endl;
