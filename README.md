@@ -9,8 +9,16 @@
 
 ### generator
 * generate random sequences
+
 #### command line invocation
-*
+* generator <prefix for dict and index files> <context file>
+
+#### context file format
+* context length
+* number of sequences to generate
+* repeated:
+  * len of sequence to generate
+  * [token1, token2, ...]
 
 ### File structure of the project :
 * bin - binary programs files
