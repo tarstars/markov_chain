@@ -1,7 +1,7 @@
-#include "markov_automaton.h"
-#include "util.h"
+#include "../common_code/markov_automaton.h"
+#include "../common_code/util.h"
 
-#include "locale_services.h"
+#include "../common_code/locale_services.h"
 
 #include <algorithm>
 #include <codecvt>
@@ -10,7 +10,7 @@
 #include <sstream>
 
 void doMain(int argc, const char **argv) {
-    auto cmdParams = getParameters(argc, argv);
+    auto cmdParams = getMarkovParameters(argc, argv);
     std::string uriFlnm(cmdParams["uri_flnm"]);
     std::stringstream streamN(cmdParams["context_len"]);
     std::string modelFilePrefix = cmdParams["model_file_prefix"];

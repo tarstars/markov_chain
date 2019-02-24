@@ -3,6 +3,9 @@ CONFIG += console c++11
 CONFIG -= app_bundle
 CONFIG -= qt
 LIBS += -lboost_system -lboost_filesystem
+VPATH += ../common_code
+DESTDIR = ../bin
+BUILDDIR = ../tmp
 
 SOURCES += \
         main.cpp \
@@ -31,4 +34,5 @@ HEADERS += \
     markov_automaton.h \
     util.h \
     locale_services.h \
-    poly_hash.h
+    poly_hash.h \
+    ../common_code/generator.h

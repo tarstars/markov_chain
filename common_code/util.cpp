@@ -23,7 +23,7 @@ std::string exec(const char* cmd) {
     return result;
 }
 
-void checkParameters(int argc, const char **argv) {
+void checkMarkovParameters(int argc, const char **argv) {
     if (argc != 4) {
         std::cerr << "usage: " << boost::filesystem::basename(argv[0])
                   << " <file with urls> <context len> <prefix for dict and index files>" << std::endl;
@@ -31,13 +31,31 @@ void checkParameters(int argc, const char **argv) {
     }
 }
 
-std::map<std::string, std::string> getParameters(int argc, const char** argv) {
-    checkParameters(argc, argv);
+std::map<std::string, std::string> getMarkovParameters(int argc, const char** argv) {
+    checkMarkovParameters(argc, argv);
     std::map<std::string, std::string> result;
 
     result["uri_flnm"] = argv[1];
     result["context_len"] = argv[2];
     result["model_file_prefix"] = argv[3];
+
+    return result;
+}
+
+void checkGeneratorParameters(int argc, const char **argv) {
+    if (argc != 3) {
+        std::cerr << "usage: " << boost::filesystem::basename(argv[0])
+                  << " <prefix for dict and index files> <context file>" << std::endl;
+        throw std::runtime_error("");
+    }
+}
+
+std::map<std::string, std::string> getGeneratorParameters(int argc, const char** argv) {
+    checkGeneratorParameters(argc, argv);
+    std::map<std::string, std::string> result;
+
+    result["dict_index_prefix"] = argv[1];
+    result["context_flnm"] = argv[2];
 
     return result;
 }
