@@ -5,13 +5,13 @@
 * generates table of token ids
 * generate table of automaton transitions
 #### command line invocation
-* markov <file with urls> <context len> <prefix for dict and index files>
+* `markov <file with urls> <context len> <prefix for dict and index files>`
 
 ### generator
 * generate random sequences
 
 #### command line invocation
-* generator <prefix for dict and index files> <context file>
+* `generator <prefix for dict and index files> <context file>`
 
 #### context file format
 * context length
