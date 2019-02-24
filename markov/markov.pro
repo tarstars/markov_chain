@@ -12,7 +12,8 @@ SOURCES += \
     markov_automaton.cpp \
     util.cpp \
     locale_services.cpp \
-    poly_hash.cpp
+    poly_hash.cpp \
+    main.cpp
 
 DISTFILES += \
     ars.txt \
@@ -28,7 +29,19 @@ DISTFILES += \
     hello_test_00.txt \
     hello_test_01.txt \
     automaton_00.idx \
-    automaton_00.mtx
+    automaton_00.mtx \
+    ../README.md \
+    ../data/ars.txt \
+    ../data/bash.txt \
+    ../data/hello_test_00.txt \
+    ../data/hello_test_01.txt \
+    ../data/hello_test_03.txt \
+    ../data/local_uri \
+    ../data/t.txt \
+    ../data/wp_utf8.txt \
+    ../data/ars.txt \
+    ../models/hello_test_01_2.idx \
+    ../models/hello_test_01_2.mtx
 
 HEADERS += \
     markov_automaton.h \
