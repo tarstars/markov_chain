@@ -77,12 +77,14 @@ void MarkovSampler::generateFromContext(const GenerationContext &generationConte
 }
 
 void MarkovSampler::generateFromSequenceData(const GenerationContext::SequenceData& sd) {
-    size_t startCache = sd.contextId;
+    PolyHash polyHash = sd.polyHash;
     for (size_t ind = 0; ind < sd.seqLen; ++ind) {
-        auto discreteDistribution = transitions.find(startCache);
+        auto discreteDistribution = transitions.find(polyHash.getContextId());
         if (discreteDistribution == transitions.end()) {
             return;
         }
         size_t tokenId = discreteDistribution->second.drawRandomId();
+        std::cout << id2token[tokenId] << " ";
     }
+    std::cout << std::endl;
 }

@@ -1,5 +1,5 @@
-#ifndef GENERATION_CONTEXT_H
-#define GENERATION_CONTEXT_H
+#pragma once
+#include "poly_hash.h"
 
 #include <iostream>
 #include <vector>
@@ -17,8 +17,9 @@ private:
     public:
         static SequenceData fromStream(std::istream &, const MarkovSampler& );
     private:
+        SequenceData(size_t contextLength);
         size_t seqLen;
-        size_t contextId;
+        PolyHash polyHash;
         friend class MarkovSampler;
     };
 
@@ -26,5 +27,3 @@ private:
     std::vector<SequenceData> seqs;
     friend class MarkovSampler;
 };
-
-#endif // GENERATION_CONTEXT_H

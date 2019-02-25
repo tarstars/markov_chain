@@ -36,10 +36,14 @@ GenerationContext GenerationContext::fromStream(std::istream &is,
     return result;
 }
 
+GenerationContext::SequenceData::SequenceData(size_t contextLength): polyHash(contextLength) {
+
+}
+
 GenerationContext::SequenceData
 GenerationContext::SequenceData::fromStream(std::istream &is,
                                             const MarkovSampler &markovSampler) {
-    SequenceData result;
+    SequenceData result(markovSampler.getContextLength());
     if (!(is >> result.seqLen)) {
         throw std::runtime_error("stream error during load of sequence data");
     }
@@ -55,7 +59,7 @@ GenerationContext::SequenceData::fromStream(std::istream &is,
     if (!polyHash.ripe()) {
         throw std::runtime_error("poly hash is not full in SequenceData::fromStream");
     }
-    result.contextId = polyHash.getContextId();
+    result.polyHash = polyHash;
 
     return result;
 }
