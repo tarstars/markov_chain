@@ -43,7 +43,9 @@
 * start python simple server in the root directory of the project
 * compile markov and generator using `qmake && make` command
 * ensure that bin dir now contains generator and markov binaries
-*
+* create model files: `bin/markov data/hello_test_00.uri 1 models/hello_test_00`
+* ensure that models directory now contains hello_test_00.idx and hello_test_00.mtx files
+* generate markov sequence `bin/generator models/hello_test_00 data/hello_test_00_start_context`
 
 ## Model files format:
 ### Tokes file format
