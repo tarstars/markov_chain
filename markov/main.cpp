@@ -9,6 +9,12 @@
 #include <iostream>
 #include <sstream>
 
+// TODO: unify format of exception messages, incorporate file, line, class and method in
+//       the message
+// TODO: write unittests for this project
+// TODO: dehardcode locale
+// TODO: place random seed in the configuration file
+
 void doMain(int argc, const char **argv) {
     auto cmdParams = getMarkovParameters(argc, argv);
     std::string uriFlnm(cmdParams["uri_flnm"]);
