@@ -25,7 +25,6 @@
 * common_code - shared between markov and generator files
 * data:
  * test data and "War and Peace" file
- * configuration files for markov
  * test data files:
    * hello_test_0{1,2,3}.txt - text files for a small obvious model training
  * configuration files for markov
@@ -39,6 +38,12 @@
 ## How to start local python server:
 * python2: python -m SimpleHTTPServer
 * python3: python -m http.server
+
+## Testing sequence
+* start python simple server in the root directory of the project
+* compile markov and generator using `qmake && make` command
+* ensure that bin dir now contains generator and markov binaries
+*
 
 ## Model files format:
 ### Tokes file format

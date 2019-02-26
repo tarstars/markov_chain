@@ -41,7 +41,17 @@ DISTFILES += \
     ../data/ars.txt \
     ../models/hello_test_01_2.idx \
     ../models/hello_test_01_2.mtx \
-    ../data/hello_test_01_start_context
+    ../data/hello_test_01_start_context \
+    ../models/README.md \
+    ../data/hello_test_00_start_context \
+    ../data/hello_test_00.uri \
+    ../data/wp.uri \
+    ../models/wp_1.idx \
+    ../models/wp_1.mtx \
+    ../models/wp_2.idx \
+    ../models/wp_2.mtx \
+    ../data/wp_start_contexts_1.txt \
+    ../data/wp_start_contexts_2.txt
 
 HEADERS += \
     markov_automaton.h \
