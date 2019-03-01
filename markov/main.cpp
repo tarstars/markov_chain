@@ -12,6 +12,7 @@
 // TODO: fix triple memory usage
 // TODO: fix encoding problem
 // TODO: fix dirty #include
+// TODO: fix inoptimality in update of word2id
 // TODO: unify format of exception messages, incorporate file, line, class and method in
 //       the message
 // TODO: write unittests for this project
@@ -51,9 +52,12 @@ void doMain(int argc, const char **argv) {
     MarkovAutomaton mark(static_cast<size_t>(n));
     std::string uri;
     while (std::getline(source, uri)) {
-        std::string inStr = exec((curlCmd + uri).c_str());
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-        std::wstring winStr = converter.from_bytes(inStr);
+        std::wstring winStr;
+        {
+            std::string inStr = exec((curlCmd + uri).c_str());
+            winStr = converter.from_bytes(inStr);
+        }
         winStr.erase(std::remove_if(winStr.begin(), winStr.end(), LettersToIgnore()), winStr.end());
         mark.UpdateFromString(winStr);
     }

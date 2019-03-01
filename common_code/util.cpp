@@ -25,7 +25,7 @@ std::string exec(const char* cmd) {
 }
 
 void checkMarkovParameters(int argc, const char **argv) {
-    if (argc != 4 || argc != 5) {
+    if (argc != 4 && argc != 5) {
         std::cerr << "usage: " << boost::filesystem::basename(argv[0])
                   << " <file with urls> <context len> <prefix for dict and index files> [<locale>]" << std::endl;
         throw std::runtime_error("");
@@ -39,7 +39,7 @@ std::map<std::string, std::string> getMarkovParameters(int argc, const char** ar
     result["uri_flnm"] = argv[1];
     result["context_len"] = argv[2];
     result["model_file_prefix"] = argv[3];
-    result["locale"] = "ru_RU.utf8";
+    result["locale"] = "ru_RU.utf16";
 
     if (5 == argc) {
         result["locale"] = argv[4];
