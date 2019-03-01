@@ -1,3 +1,4 @@
+#include "global_locale.h"
 #include "util.h"
 
 #include <array>
@@ -63,4 +64,12 @@ std::map<std::string, std::string> getGeneratorParameters(int argc, const char**
     result["context_flnm"] = argv[2];
 
     return result;
+}
+
+std::wstring tolower_locale(std::wstring s) {
+    const auto& loc = GlobalLocale::getLocale();
+    for (size_t ind = 0; ind < s.size(); ++ind) {
+        s[ind] = std::tolower(s[ind], *loc);
+    }
+    return s;
 }

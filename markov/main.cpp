@@ -1,7 +1,7 @@
 #include "../common_code/markov_automaton.h"
 #include "../common_code/util.h"
 
-#include "../common_code/locale_services.h"
+#include "../common_code/global_locale.h"
 
 #include <algorithm>
 #include <codecvt>
@@ -18,6 +18,17 @@
 // TODO: dehardcode locale
 // TODO: place random seed in the configuration file
 
+class LettersToIgnore {
+public:
+    bool operator()(wchar_t c) const {
+        static std::wstring nonAlphaExceptions = L" \t\n<>=";
+        return !std::isalpha(c, *loc) &&  nonAlphaExceptions.find(c) == std::string::npos;
+    }
+    LettersToIgnore(): loc(GlobalLocale::getLocale())  {}
+private:
+    std::shared_ptr<const std::locale> loc;
+};
+
 void doMain(int argc, const char **argv) {
     auto cmdParams = getMarkovParameters(argc, argv);
     std::string uriFlnm(cmdParams["uri_flnm"]);
@@ -26,7 +37,7 @@ void doMain(int argc, const char **argv) {
     std::string modelIndexFileName = modelFilePrefix + ".idx";
     std::string modelMatrixFileName = modelFilePrefix + ".mtx";
 
-    LocaleServices::getInst().setLocale(cmdParams["locale"]);
+    GlobalLocale::setLocale(cmdParams["locale"]);
 
     std::ifstream source(uriFlnm);
     std::string curlCmd("curl ");
@@ -43,7 +54,7 @@ void doMain(int argc, const char **argv) {
         std::string inStr = exec((curlCmd + uri).c_str());
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
         std::wstring winStr = converter.from_bytes(inStr);
-        winStr.erase(std::remove_if(winStr.begin(), winStr.end(), LocaleServices::getInst()), winStr.end());
+        winStr.erase(std::remove_if(winStr.begin(), winStr.end(), LettersToIgnore()), winStr.end());
         mark.UpdateFromString(winStr);
     }
     mark.SaveIndex(modelIndexFileName);

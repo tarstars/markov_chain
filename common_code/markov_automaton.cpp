@@ -1,11 +1,12 @@
 #include "markov_automaton.h"
-#include "locale_services.h"
+#include "util.h"
 
 #include <boost/tokenizer.hpp>
 
 #include <codecvt>
 #include <iostream>
 #include <fstream>
+#include <locale>
 
 MarkovAutomaton::MarkovAutomaton(size_t contextSize): polyHash(contextSize)
 {
@@ -18,7 +19,7 @@ void MarkovAutomaton::UpdateFromString(const std::wstring& text) {
     boost::char_separator<wchar_t> sep{L" \t.,?!<>\\/\n=:;"};
     tokenizer tok{text, sep};
     for (tokenizer::iterator itToken = tok.begin(); itToken != tok.end(); ++itToken) {
-        std::wstring currentToken = LocaleServices::getInst().tolower_locale(*itToken);
+        std::wstring currentToken = tolower_locale(*itToken);
         size_t tokenId;
         const auto itId = word2id.find(currentToken);
         if (itId == word2id.end()) {

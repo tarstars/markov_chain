@@ -11,7 +11,7 @@ SOURCES += \
         main.cpp \
     markov_automaton.cpp \
     util.cpp \
-    locale_services.cpp \
+    global_locale.cpp \
     poly_hash.cpp
 
 DISTFILES += \
