@@ -9,6 +9,9 @@
 #include <iostream>
 #include <sstream>
 
+// TODO: fix triple memory usage
+// TODO: fix encoding problem
+// TODO: fix dirty #include
 // TODO: unify format of exception messages, incorporate file, line, class and method in
 //       the message
 // TODO: write unittests for this project
@@ -22,6 +25,9 @@ void doMain(int argc, const char **argv) {
     std::string modelFilePrefix = cmdParams["model_file_prefix"];
     std::string modelIndexFileName = modelFilePrefix + ".idx";
     std::string modelMatrixFileName = modelFilePrefix + ".mtx";
+
+    LocaleServices::getInst().setLocale(cmdParams["locale"]);
+
     std::ifstream source(uriFlnm);
     std::string curlCmd("curl ");
     int n;
