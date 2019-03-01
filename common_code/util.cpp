@@ -39,7 +39,7 @@ std::map<std::string, std::string> getMarkovParameters(int argc, const char** ar
     result["uri_flnm"] = argv[1];
     result["context_len"] = argv[2];
     result["model_file_prefix"] = argv[3];
-    result["locale"] = "ru_RU.utf16";
+    result["locale"] = "ru_RU.utf8";
 
     if (5 == argc) {
         result["locale"] = argv[4];

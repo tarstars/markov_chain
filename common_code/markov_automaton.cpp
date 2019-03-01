@@ -20,14 +20,8 @@ void MarkovAutomaton::UpdateFromString(const std::wstring& text) {
     tokenizer tok{text, sep};
     for (tokenizer::iterator itToken = tok.begin(); itToken != tok.end(); ++itToken) {
         std::wstring currentToken = tolower_locale(*itToken);
-        size_t tokenId;
-        const auto itId = word2id.find(currentToken);
-        if (itId == word2id.end()) {
-            tokenId = word2id.size() + 1;
-            word2id[currentToken] = tokenId;
-        } else {
-            tokenId = itId->second;
-        }
+        auto opRes = word2id.emplace(currentToken, word2id.size() + 1);
+        size_t tokenId = opRes.first->second;
         processTokenId(tokenId);
     }
 }
