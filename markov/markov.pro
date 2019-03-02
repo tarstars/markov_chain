@@ -51,7 +51,12 @@ DISTFILES += \
     ../models/wp_2.idx \
     ../models/wp_2.mtx \
     ../data/wp_start_contexts_1.txt \
-    ../data/wp_start_contexts_2.txt
+    ../data/wp_start_contexts_2.txt \
+    ../data/matrix_test_00.uri \
+    ../data/matrix_test_00.txt \
+    ../models/matrix_test.idx \
+    ../models/matrix_test.mtx \
+    ../data/matrix_test_start_context
 
 HEADERS += \
     markov_automaton.h \

@@ -29,8 +29,7 @@ MarkovSampler MarkovSampler::loadSampler(const std::string& modelMatrixFileName,
             if (!(matrixStream >> contextId)) {
                 throw std::runtime_error("stream error during reading of contextId in the Markov sampler");
             }
-            auto discreteDistribution = DiscreteDistribution::createFromStream(matrixStream);
-            result.transitions[contextId] = discreteDistribution;
+            result.transitions.emplace(contextId, DiscreteDistribution::createFromStream(matrixStream));
         }
     }
 
@@ -49,9 +48,11 @@ MarkovSampler MarkovSampler::loadSampler(const std::string& modelMatrixFileName,
         for (size_t meter = 0; meter < unsignedN; ++meter) {
             std::string token;
             size_t id;
-            indexStream >> token >> id;
-            result.id2token[id] = token;
-            result.token2id[token] = id;
+            if (!(indexStream >> token >> id)) {
+                throw std::runtime_error("stream error during load of model index");
+            }
+            result.id2token.emplace(id, token);
+            result.token2id.emplace(token, id);
         }
     }
     return result;
@@ -85,6 +86,7 @@ void MarkovSampler::generateFromSequenceData(const GenerationContext::SequenceDa
         }
         size_t tokenId = discreteDistribution->second.drawRandomId();
         std::cout << id2token[tokenId] << " ";
+        polyHash.push(tokenId);
     }
     std::cout << std::endl;
 }

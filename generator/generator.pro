@@ -19,7 +19,8 @@ SOURCES += \
 
 DISTFILES += \
     ../markov_chain.md \
-    ../data/hello_test_01_start_context
+    ../data/hello_test_01_start_context \
+    ../data/matrix_test_start_context
 
 HEADERS += \
     markov_sampler.h \

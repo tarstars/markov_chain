@@ -2,6 +2,7 @@
 #include "random_singleton.h"
 
 #include <algorithm>
+#include <limits>
 
 DiscreteDistribution::DiscreteDistribution() {
 
@@ -43,8 +44,9 @@ DiscreteDistribution DiscreteDistribution::createFromStream(std::istream &is) {
 }
 
 size_t DiscreteDistribution::drawRandomId() const {
-    double x = RandomSingleton::rand();
-    return tokenIds[upper_bound(cumulativeDensity.begin(),
-                                cumulativeDensity.end(),
-                                x) - cumulativeDensity.begin()];
+    double x = RandomSingleton::rand() * (1-std::numeric_limits<double>::epsilon());
+    size_t ind = std::lower_bound(cumulativeDensity.begin(),
+                                  cumulativeDensity.end(),
+                                  x) - cumulativeDensity.begin();
+    return tokenIds[ind];
 }

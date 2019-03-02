@@ -9,10 +9,7 @@
 #include <iostream>
 #include <sstream>
 
-// TODO: fix triple memory usage
-// TODO: fix encoding problem
 // TODO: fix dirty #include
-// TODO: fix inoptimality in update of word2id
 // TODO: unify format of exception messages, incorporate file, line, class and method in
 //       the message
 // TODO: write unittests for this project
