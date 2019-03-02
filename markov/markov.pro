@@ -12,7 +12,8 @@ SOURCES += \
     markov_automaton.cpp \
     util.cpp \
     global_locale.cpp \
-    poly_hash.cpp
+    poly_hash.cpp \
+    ../common_code/automaton_updater.cpp
 
 DISTFILES += \
     ars.txt \
@@ -63,4 +64,6 @@ HEADERS += \
     util.h \
     locale_services.h \
     poly_hash.h \
-    generator.h
+    generator.h \
+    ../common_code/automaton_updater.h \
+    ../common_code/typedefs.h

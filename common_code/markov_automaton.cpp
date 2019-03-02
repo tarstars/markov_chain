@@ -1,5 +1,6 @@
 #include "markov_automaton.h"
 #include "util.h"
+#include "global_locale.h"
 
 #include <boost/tokenizer.hpp>
 
@@ -7,15 +8,29 @@
 #include <iostream>
 #include <fstream>
 #include <locale>
+#include <memory>
+
+class LettersToIgnore {
+public:
+    bool operator()(wchar_t c) const {
+        static std::wstring nonAlphaExceptions = L" \t\n<>=";
+        return !std::isalpha(c, *loc) &&  nonAlphaExceptions.find(c) == std::string::npos;
+    }
+    LettersToIgnore(): loc(GlobalLocale::getLocale())  {}
+private:
+    std::shared_ptr<const std::locale> loc;
+};
 
 MarkovAutomaton::MarkovAutomaton(size_t contextSize): polyHash(contextSize)
 {
 
 }
 
-void MarkovAutomaton::UpdateFromString(const std::wstring& text) {
+void MarkovAutomaton::update(const std::wstring& text) {
     typedef boost::tokenizer<boost::char_separator<wchar_t>,
             std::wstring::const_iterator, std::wstring> tokenizer;
+    std::wstring clearText(text);
+    clearText.erase(std::remove_if(clearText.begin(), clearText.end(), LettersToIgnore()), clearText.end());
     boost::char_separator<wchar_t> sep{L" \t.,?!<>\\/\n=:;"};
     tokenizer tok{text, sep};
     for (tokenizer::iterator itToken = tok.begin(); itToken != tok.end(); ++itToken) {

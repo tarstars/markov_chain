@@ -21,6 +21,7 @@ private:
         size_t seqLen;
         PolyHash polyHash;
         friend class MarkovSampler;
+        friend class MarkovSampler;
     };
 
     int contextLength;

@@ -15,12 +15,12 @@ SOURCES += \
     markov_sampler.cpp \
     generation_context.cpp \
     random_singleton.cpp \
-    global_locale.cpp
+    global_locale.cpp \
+    ../common_code/automaton_updater.cpp
 
 DISTFILES += \
     ../markov_chain.md \
-    ../data/hello_test_01_start_context \
-    ../data/matrix_test_start_context
+    ../data/hello_test_01_start_context
 
 HEADERS += \
     markov_sampler.h \

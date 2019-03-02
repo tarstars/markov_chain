@@ -12,7 +12,7 @@ class MarkovAutomaton
 {
 public:
     MarkovAutomaton(size_t constextSize);
-    void UpdateFromString(const std::wstring& text);
+    void update(const std::wstring& text);
     void SaveIndex(const std::string& flnm);
     void SaveMatrix(const std::string& flnm);
 private:

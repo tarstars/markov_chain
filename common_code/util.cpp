@@ -1,15 +1,14 @@
+#include "automaton_updater.h"
 #include "global_locale.h"
+#include "markov_automaton.h"
+#include "typedefs.h"
 #include "util.h"
 
 #include <array>
 #include <boost/filesystem.hpp>
-#include <clocale>
-#include <cstdio>
+#include <boost/process.hpp>
 #include <iostream>
 #include <memory>
-#include <stdexcept>
-#include <sstream>
-#include <string>
 
 std::string exec(const char* cmd) {
     std::array<char, 128> buffer;
@@ -23,6 +22,23 @@ std::string exec(const char* cmd) {
     }
     return result;
 }
+
+template <typename WordProcessor>
+void callWordProcessor(const std::string& command,
+                       const std::string& uri,
+                       WordProcessor wordProcessor) {
+    boost::process::ipstream ps;
+    boost::process::child c(boost::process::search_path(command), uri, boost::process::std_out > ps);
+    std::string token;
+    while (ps >> token) {
+        wordProcessor(token);
+    }
+    c.wait();
+}
+
+template
+void callWordProcessor(const std::string&, const std::string&,
+                        AutomatonUpdater<MarkovAutomaton, ConverterType>);
 
 void checkMarkovParameters(int argc, const char **argv) {
     if (argc != 4 && argc != 5) {
